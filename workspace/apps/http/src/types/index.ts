@@ -18,7 +18,12 @@ export const UpdateMetadataSchema = z.object({
 export const CreateSpaceSchema = z.object({
   name: z.string(),
   dimensions: z.string().regex(/^[0-9]{1,4}x[0-9]{1,4}$/),
-  mapId: z.string(),
+  mapId: z.string().optional(),
+});
+
+export const DeleteElementSchema = z.object({
+  elementId: z.string(),
+  spaceId: z.string(),
 });
 
 export const AddElementSchema = z.object({
@@ -54,4 +59,14 @@ export const CreateMapSchema = z.object({
       y: z.number(),
     })
   ),
+  name: z.string(),
 });
+
+declare global {
+  namespace Express {
+    export interface Request {
+      userId?: string;
+      role: "Admin" | "User";
+    }
+  }
+}
